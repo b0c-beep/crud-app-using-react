@@ -1,4 +1,3 @@
-import Card from "./Card";
 import CardAdder from "./CardAdder";
 
 function App() {
@@ -6,9 +5,6 @@ function App() {
   return (
     <>
       <CardAdder/>
-
-
-      
     </>
   );
 }

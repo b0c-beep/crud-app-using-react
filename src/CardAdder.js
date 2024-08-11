@@ -23,7 +23,6 @@ function CardAdder(){
 
         setCardData([...cardData, newCard]);
         
-
         document.querySelector('input[name="imageUrl"]').value = "";
         document.querySelector('input[name="title"]').value = "";
         document.querySelector('input[name="description"]').value = "";
@@ -49,8 +48,6 @@ function CardAdder(){
                     <Button text = "Add" onClickEvent={addCardClick}/>
                 </form>
             </div>
-
-            
 
             <div className="cards-container">
                 {cardData.length > 0 ? (
