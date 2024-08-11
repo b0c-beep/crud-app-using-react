@@ -13,10 +13,11 @@ export async function getImage(searchQuery){
 
         // Check if the API returned results
         if (data && data.results && data.results.length > 0) {
-        return data.results[0].urls.regular; // Return the first image's regular URL
+            console.log("succesfully fetched image from Unsplash");
+            return data.results[0].urls.regular; // Return the first image's regular URL
         } else {
-        console.error("No images found for the given search query.");
-        return null;
+            console.error("No images found for the given search query.");
+            return null;
         }
     } catch (error) {
         console.error("Error fetching image from Unsplash:", error);

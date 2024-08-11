@@ -38,6 +38,7 @@
 }
 
 .card-adder{
+    flex: 1;
     vertical-align: top;
     margin: 10px;
     padding: 10px;
@@ -61,4 +62,16 @@
 .card-adder input{
   margin-top: 3px;
    border-radius: 5px;
+}
+
+.card-adder-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.cards-container {
+  flex: 1;
+  margin-left: 20px;
 }
