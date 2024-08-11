@@ -1,5 +1,9 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .card {
-    font-family: Arial, Helvetica, sans-serif;
+    vertical-align: top;
     margin: 10px;
     padding: 10px;
     border: 1px solid #333;
@@ -31,4 +35,30 @@
     border-radius: 5px;
     cursor: pointer;
     margin: 5px;
+}
+
+.card-adder{
+    vertical-align: top;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    max-width: 200px;
+    min-width: 150px;
+    max-height: 300px;
+    min-height: 250px;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 3px 3px 3px hsl(0, 0%, 20%);
+}
+
+.card-adder label{
+    display: block;
+    margin: 7px;
+}
+
+.card-adder input{
+  margin-top: 3px;
+   border-radius: 5px;
 }

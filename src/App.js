@@ -1,12 +1,12 @@
 import Card from "./Card";
+import CardAdder from "./CardAdder";
 
 function App() {
   
   return (
     <>
-      <Card imageUrl={"/resources/stock.jpg"} 
-            title = {"nothing"} 
-            description={"nothing desc"}/>
+      <CardAdder/>
+
 
       
     </>
