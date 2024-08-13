@@ -1,5 +1,6 @@
 import Button from "./Button";
 import { getImage } from "./unsplashAPI";
+import { generateDesc } from "./openaiAPI";
 import { useState, useEffect } from "react";
 import Card from "./Card";
 
@@ -24,7 +25,7 @@ function CardAdder(){
 
         if(imageUrl && !title && !description){
             title = imageUrl;
-            description = "No description provided";
+            description = await generateDesc(imageUrl);
         }
 
         const unsplashImage = await getImage(imageUrl);
