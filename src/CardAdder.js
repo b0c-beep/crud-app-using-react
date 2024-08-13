@@ -1,17 +1,31 @@
 import Button from "./Button";
 import { getImage } from "./unsplashAPI";
-import {useState} from "react";
+import { useState, useEffect } from "react";
 import Card from "./Card";
 
 function CardAdder(){
-    const [cardData, setCardData] = useState([]);
+    // Load cards from localStorage if available, otherwise use an empty array
+    const [cardData, setCardData] = useState(() => {
+        const savedCards = localStorage.getItem('cards');
+        return savedCards ? JSON.parse(savedCards) : [];
+    });
+
+    // Use useEffect to save cardData to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('cards', JSON.stringify(cardData));
+    }, [cardData]);
 
     const addCardClick = async (event) => {
         event.preventDefault();
 
         const imageUrl = document.querySelector('input[name="imageUrl"]').value;
-        const title = document.querySelector('input[name="title"]').value;
-        const description = document.querySelector('input[name="description"]').value;
+        let title = document.querySelector('input[name="title"]').value;
+        let description = document.querySelector('input[name="description"]').value;
+
+        if(imageUrl && !title && !description){
+            title = imageUrl;
+            description = "No description provided";
+        }
 
         const unsplashImage = await getImage(imageUrl);
 
