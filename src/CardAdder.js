@@ -28,6 +28,30 @@ function CardAdder(){
         document.querySelector('input[name="description"]').value = "";
     }
 
+    const handleDelete = (index) => {
+        const updatedCardData = cardData.filter((_, i) => i !== index);
+        setCardData(updatedCardData);
+    };
+
+    const handleEdit = async (index) => {
+        const updatedImageUrl = prompt("Enter new image URL:", cardData[index].imageUrl);
+        const updatedTitle = prompt("Enter new title:", cardData[index].title);
+        const updatedDescription = prompt("Enter new description:", cardData[index].description);
+        
+        if (updatedTitle && updatedDescription && updatedImageUrl) {
+            const unsplashImage = await getImage(updatedImageUrl);
+
+            const updatedCardData = [...cardData];
+            updatedCardData[index] = {
+                ...updatedCardData[index],
+                imageUrl: unsplashImage || updatedImageUrl,
+                title: updatedTitle,
+                description: updatedDescription
+            };
+            setCardData(updatedCardData);
+        }
+    };
+
     return (
         <div className="card-adder-container">
             <div className="card-adder">
@@ -57,6 +81,8 @@ function CardAdder(){
                             imageUrl={card.imageUrl}
                             title={card.title}
                             description={card.description}
+                            onDelete={() => handleDelete(index)}
+                            onEdit={() => handleEdit(index)}
                         />
                     ))
                 ) : (console.log("No cards to display"))}
