@@ -50,6 +50,9 @@ function CardAdder(){
             };
             setCardData(updatedCardData);
         }
+        else{
+            alert("Please provide valid input");
+        }
     };
 
     return (
