@@ -1,9 +1,9 @@
 import Button from "./Button";
 
-function Card({imageUrl, title, description, onDelete, onEdit}) {
+function Card({imageUrl, title, description, onDelete, onEdit, isDeleting, isEditing}) {
 
     return (
-        <div className="card">
+        <div className={`card ${isDeleting ? "deleting" : ""} ${isEditing ? "editing" : ""}`}>
             <img className="image" src={imageUrl}/>
             <h2 className="title">{title}</h2>
             <p className="description">{description}</p>

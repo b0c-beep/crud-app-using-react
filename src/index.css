@@ -16,8 +16,32 @@
     display: inline-block;
     text-align: center;
     box-shadow: 3px 3px 3px hsl(0, 0%, 20%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card.deleting {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card.editing {
+  animation: highlight 0.5s ease-in-out;
+}
+
+@keyframes highlight {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 223, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
 
 .card .image {
     width: 100%;

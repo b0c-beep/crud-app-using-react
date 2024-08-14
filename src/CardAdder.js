@@ -3,7 +3,7 @@ import { getImage } from "./unsplashAPI";
 import { useState, useEffect } from "react";
 import Card from "./Card";
 import { faker } from '@faker-js/faker';
-
+import {generate} from 'random-words';
 
 function CardAdder(){
     // Load cards from localStorage if available, otherwise use an empty array
@@ -11,6 +11,11 @@ function CardAdder(){
         const savedCards = localStorage.getItem('cards');
         return savedCards ? JSON.parse(savedCards) : [];
     });
+
+    //for card animations
+    const [deletingIndex, setDeletingIndex] = useState(null);
+    const [editingIndex, setEditingIndex] = useState(null);
+
 
     // Use useEffect to save cardData to localStorage whenever it changes
     useEffect(() => {
@@ -20,11 +25,17 @@ function CardAdder(){
     const addCardClick = async (event) => {
         event.preventDefault();
 
-        const imageUrl = document.querySelector('input[name="imageUrl"]').value;
+        let imageUrl = document.querySelector('input[name="imageUrl"]').value;
         let title = document.querySelector('input[name="title"]').value;
         let description = document.querySelector('input[name="description"]').value;
 
         if(imageUrl && !title && !description){
+            title = imageUrl;
+            description = faker.lorem.sentence(5);
+        }
+
+        if(!imageUrl || !title || !description){
+            imageUrl = generate();
             title = imageUrl;
             description = faker.lorem.sentence(5);
         }
@@ -45,11 +56,17 @@ function CardAdder(){
     }
 
     const handleDelete = (index) => {
-        const updatedCardData = cardData.filter((_, i) => i !== index);
-        setCardData(updatedCardData);
+        setDeletingIndex(index);
+        setTimeout(() => {
+            const updatedCardData = cardData.filter((_, i) => i !== index);
+            setCardData(updatedCardData);
+            setDeletingIndex(null);
+        }, 300);
     };
 
     const handleEdit = async (index) => {
+        setEditingIndex(index); 
+
         const updatedImageUrl = prompt("Enter new image URL:", cardData[index].imageUrl);
         const updatedTitle = prompt("Enter new title:", cardData[index].title);
         const updatedDescription = prompt("Enter new description:", cardData[index].description);
@@ -65,6 +82,9 @@ function CardAdder(){
                 description: updatedDescription
             };
             setCardData(updatedCardData);
+            setTimeout(() => {
+                setEditingIndex(null);
+            }, 500);
         }
         else{
             alert("Please provide valid input");
@@ -102,6 +122,8 @@ function CardAdder(){
                             description={card.description}
                             onDelete={() => handleDelete(index)}
                             onEdit={() => handleEdit(index)}
+                            isDeleting={deletingIndex === index}
+                            isEditing={editingIndex === index}
                         />
                     ))
                 ) : (console.log("No cards to display"))}
