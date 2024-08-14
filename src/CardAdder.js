@@ -1,8 +1,9 @@
 import Button from "./Button";
 import { getImage } from "./unsplashAPI";
-import { generateDesc } from "./openaiAPI";
 import { useState, useEffect } from "react";
 import Card from "./Card";
+import { faker } from '@faker-js/faker';
+
 
 function CardAdder(){
     // Load cards from localStorage if available, otherwise use an empty array
@@ -25,7 +26,7 @@ function CardAdder(){
 
         if(imageUrl && !title && !description){
             title = imageUrl;
-            description = await generateDesc(imageUrl);
+            description = faker.lorem.sentence(5);
         }
 
         const unsplashImage = await getImage(imageUrl);
