@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Card from "./Card";
 import { faker } from '@faker-js/faker';
 import {generate} from 'random-words';
+import Modal from "./Modal";
 
 function CardAdder(){
     // Load cards from localStorage if available, otherwise use an empty array
@@ -14,7 +15,8 @@ function CardAdder(){
 
     //for card animations
     const [deletingIndex, setDeletingIndex] = useState(null);
-    const [editingIndex, setEditingIndex] = useState(null);
+    //const [editingIndex, setEditingIndex] = useState(null);
+    const [editingCard, setEditingCard] = useState(null);
 
 
     // Use useEffect to save cardData to localStorage whenever it changes
@@ -64,32 +66,26 @@ function CardAdder(){
         }, 300);
     };
 
-    const handleEdit = async (index) => {
-        setEditingIndex(index); 
-
-        const updatedImageUrl = prompt("Enter new image URL:", cardData[index].imageUrl);
-        const updatedTitle = prompt("Enter new title:", cardData[index].title);
-        const updatedDescription = prompt("Enter new description:", cardData[index].description);
-        
-        if (updatedTitle && updatedDescription && updatedImageUrl) {
-            const unsplashImage = await getImage(updatedImageUrl);
-
-            const updatedCardData = [...cardData];
-            updatedCardData[index] = {
-                ...updatedCardData[index],
-                imageUrl: unsplashImage || updatedImageUrl,
-                title: updatedTitle,
-                description: updatedDescription
-            };
-            setCardData(updatedCardData);
-            setTimeout(() => {
-                setEditingIndex(null);
-            }, 500);
-        }
-        else{
-            alert("Please provide valid input");
-        }
+    const handleEdit = (index) => {
+        setEditingCard({ ...cardData[index], index });
     };
+
+    const saveEdit = async (updatedCard) => {
+        const { index, imageUrl, title, description } = updatedCard;
+        const unsplashImage = await getImage(imageUrl);
+
+        const updatedCardData = [...cardData];
+        updatedCardData[index] = {
+            ...updatedCardData[index],
+            imageUrl: unsplashImage || imageUrl,
+            title: title,
+            description: description
+        };
+
+        setCardData(updatedCardData);
+        setEditingCard(null);
+    };
+
 
     return (
         <div className="card-adder-container">
@@ -123,11 +119,20 @@ function CardAdder(){
                             onDelete={() => handleDelete(index)}
                             onEdit={() => handleEdit(index)}
                             isDeleting={deletingIndex === index}
-                            isEditing={editingIndex === index}
+                            isEditing={editingCard?.index === index}
                         />
                     ))
                 ) : (console.log("No cards to display"))}
             </div>
+
+            {editingCard && (
+                <Modal
+                    isOpen={!!editingCard}
+                    onClose={() => setEditingCard(null)}
+                    onSave={saveEdit}
+                    card={editingCard}
+                />
+            )}
         </div>
     );
 }
